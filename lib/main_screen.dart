@@ -25,6 +25,9 @@ class MainScreen extends StatelessWidget {
             }, child: const Text("Gyro demo")),
             ElevatedButton(onPressed: () {}, child: const Text("Accel demo")),
             ElevatedButton(onPressed: () {}, child: const Text("Magnetometer demo")),
+            ElevatedButton(onPressed: () {
+              AutoRouter.of(context).navigate(SensorsPlusDemoRoute());
+            }, child: const Text("demo")),
             Spacer(),
           ],
         ),
