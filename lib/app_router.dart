@@ -9,12 +9,7 @@ part 'app_router.gr.dart';
 class AppRouter extends _$AppRouter {
   @override
   List<AutoRoute> get routes => [
-        AutoRoute(
-          path: '/',
-          page: MainRoute.page,
-          children: [
-            AutoRoute(path: 'gyroscope', page: GyroscopeDemoRoute.page),
-          ]
-        ),
+        AutoRoute(path: '/', page: MainRoute.page),
+        AutoRoute(page: GyroscopeDemoRoute.page),
       ];
 }
