@@ -15,10 +15,10 @@ abstract class _$AppRouter extends RootStackRouter {
 
   @override
   final Map<String, PageFactory> pagesMap = {
-    MainRoute.name: (routeData) {
+    AccelerometerDemoRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const MainScreen(),
+        child: const AccelerometerDemoScreen(),
       );
     },
     GyroscopeDemoRoute.name: (routeData) {
@@ -27,7 +27,47 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const GyroscopeDemoScreen(),
       );
     },
+    MainRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const MainScreen(),
+      );
+    },
+    SensorsPlusDemoRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const SensorsPlusDemoScreen(),
+      );
+    },
   };
+}
+
+/// generated route for
+/// [AccelerometerDemoScreen]
+class AccelerometerDemoRoute extends PageRouteInfo<void> {
+  const AccelerometerDemoRoute({List<PageRouteInfo>? children})
+      : super(
+          AccelerometerDemoRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'AccelerometerDemoRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [GyroscopeDemoScreen]
+class GyroscopeDemoRoute extends PageRouteInfo<void> {
+  const GyroscopeDemoRoute({List<PageRouteInfo>? children})
+      : super(
+          GyroscopeDemoRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'GyroscopeDemoRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
 }
 
 /// generated route for
@@ -45,15 +85,15 @@ class MainRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [GyroscopeDemoScreen]
-class GyroscopeDemoRoute extends PageRouteInfo<void> {
-  const GyroscopeDemoRoute({List<PageRouteInfo>? children})
+/// [SensorsPlusDemoScreen]
+class SensorsPlusDemoRoute extends PageRouteInfo<void> {
+  const SensorsPlusDemoRoute({List<PageRouteInfo>? children})
       : super(
-          GyroscopeDemoRoute.name,
+          SensorsPlusDemoRoute.name,
           initialChildren: children,
         );
 
-  static const String name = 'GyroscopeDemoRoute';
+  static const String name = 'SensorsPlusDemoRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }
