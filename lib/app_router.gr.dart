@@ -21,6 +21,16 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const AccelerometerDemoScreen(),
       );
     },
+    BleExampleRoute.name: (routeData) {
+      final args = routeData.argsAs<BleExampleRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: BleExampleScreen(
+          key: args.key,
+          title: args.title,
+        ),
+      );
+    },
     GyroscopeDemoRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -54,6 +64,44 @@ class AccelerometerDemoRoute extends PageRouteInfo<void> {
   static const String name = 'AccelerometerDemoRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [BleExampleScreen]
+class BleExampleRoute extends PageRouteInfo<BleExampleRouteArgs> {
+  BleExampleRoute({
+    Key? key,
+    required String title,
+    List<PageRouteInfo>? children,
+  }) : super(
+          BleExampleRoute.name,
+          args: BleExampleRouteArgs(
+            key: key,
+            title: title,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'BleExampleRoute';
+
+  static const PageInfo<BleExampleRouteArgs> page =
+      PageInfo<BleExampleRouteArgs>(name);
+}
+
+class BleExampleRouteArgs {
+  const BleExampleRouteArgs({
+    this.key,
+    required this.title,
+  });
+
+  final Key? key;
+
+  final String title;
+
+  @override
+  String toString() {
+    return 'BleExampleRouteArgs{key: $key, title: $title}';
+  }
 }
 
 /// generated route for
