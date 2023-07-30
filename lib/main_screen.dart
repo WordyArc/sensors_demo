@@ -28,6 +28,9 @@ class MainScreen extends StatelessWidget {
             ElevatedButton(onPressed: () {
               AutoRouter.of(context).navigate(SensorsPlusDemoRoute());
             }, child: const Text("demo")),
+            ElevatedButton(onPressed: () {
+              AutoRouter.of(context).navigate(BleExampleRoute(title: 'anrey'));
+            }, child: const Text("ble example")),
             Spacer(),
           ],
         ),
