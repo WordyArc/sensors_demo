@@ -63,10 +63,10 @@ class _AccelerometerDemoScreenState extends State<AccelerometerDemoScreen> {
     showModalBottomSheet<void>(
       context: context,
       builder: (BuildContext context) {
-        return SingleChildScrollView(
-          child: SizedBox(
-            height: MediaQuery.of(context).size.height * 0.9,
-            child: Center(
+        return SizedBox(
+          height: MediaQuery.of(context).size.height * 0.9,
+          child: Center(
+            child: SingleChildScrollView(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 mainAxisSize: MainAxisSize.min,
@@ -96,7 +96,7 @@ class _AccelerometerDemoScreenState extends State<AccelerometerDemoScreen> {
     PermissionStatus manageStorageStatus;
     storageStatus = await Permission.storage.request();
     manageStorageStatus = await Permission.manageExternalStorage.request();
-    // print(storageStatus);
+
 
     List<List<dynamic>> rows = [];
 
@@ -114,26 +114,14 @@ class _AccelerometerDemoScreenState extends State<AccelerometerDemoScreen> {
       rows.add(row);
     }
 
-    /*row.add("number");
-    row.add("latitude");
-    row.add("longitude");
-    rows.add(row);
-    for (int i = 0; i < associateList.length; i++) {
-      List<dynamic> row = [];
-      row.add(associateList[i]["number"] - 1);
-      row.add(associateList[i]["lat"]);
-      row.add(associateList[i]["lon"]);
-      rows.add(row);
-    }*/
-
-
     String csv = const ListToCsvConverter().convert(rows);
     print(csv);
 
     Directory? directory;
     directory = Directory('/storage/emulated/0/Download');
     // directory = await getDownloadsDirectory();
-    if (!await directory.exists()) directory = await getExternalStorageDirectory();
+    if (!await directory.exists())
+      directory = await getExternalStorageDirectory();
 
     String file = directory!.path;
     // print(directory);
@@ -143,6 +131,113 @@ class _AccelerometerDemoScreenState extends State<AccelerometerDemoScreen> {
     f.writeAsString(csv);
   }
 
+  void generatePlot() {
+    List<_SensorsData> xData = [];
+    List<_SensorsData> yData = [];
+    List<_SensorsData> zData = [];
+    for (var elem in userAccelData.entries) {
+      xData.add(_SensorsData(elem.key, elem.value[0]));
+      yData.add(_SensorsData(elem.key, elem.value[1]));
+      zData.add(_SensorsData(elem.key, elem.value[2]));
+    }
+
+    showModalBottomSheet<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return SizedBox(
+          height: MediaQuery.of(context).size.height * 0.9,
+          child: Center(
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  SfCartesianChart(
+                    primaryXAxis: CategoryAxis(),
+                    title: ChartTitle(text: 'Юзверь Аксель XYZ'),
+                    legend: const Legend(isVisible: true),
+                    tooltipBehavior: TooltipBehavior(enable: true),
+                    series: <ChartSeries<_SensorsData, String>>[
+                      LineSeries<_SensorsData, String>(
+                        name: 'x',
+                        dataSource: xData,
+                        xValueMapper: (_SensorsData data, _) => data.time,
+                        yValueMapper: (_SensorsData data, _) => data.coordinate,
+                        dataLabelSettings: DataLabelSettings(isVisible: true),
+                      ),
+                      LineSeries<_SensorsData, String>(
+                        name: 'y',
+                        dataSource: yData,
+                        xValueMapper: (_SensorsData data, _) => data.time,
+                        yValueMapper: (_SensorsData data, _) => data.coordinate,
+                        dataLabelSettings: DataLabelSettings(isVisible: true),
+                      ),
+                      LineSeries<_SensorsData, String>(
+                        name: 'z',
+                        dataSource: zData,
+                        xValueMapper: (_SensorsData data, _) => data.time,
+                        yValueMapper: (_SensorsData data, _) => data.coordinate,
+                        dataLabelSettings: DataLabelSettings(isVisible: true),
+                      ),
+                    ],
+                  ),
+                  SfCartesianChart(
+                      primaryXAxis: CategoryAxis(),
+                      title: ChartTitle(text: 'Юзверь Аксель x'),
+                      legend: const Legend(isVisible: true),
+                      tooltipBehavior: TooltipBehavior(enable: true),
+                      series: <ChartSeries<_SensorsData, String>>[
+                        LineSeries<_SensorsData, String>(
+                          name: 'x',
+                          dataSource: xData,
+                          xValueMapper: (_SensorsData data, _) => data.time,
+                          yValueMapper: (_SensorsData data, _) => data.coordinate,
+                          dataLabelSettings: DataLabelSettings(isVisible: true),
+                        ),
+                      ],
+                  ),
+                  SfCartesianChart(
+                      primaryXAxis: CategoryAxis(),
+                      title: ChartTitle(text: 'Юзверь Аксель y'),
+                      legend: const Legend(isVisible: true),
+                      tooltipBehavior: TooltipBehavior(enable: true),
+                      series: <ChartSeries<_SensorsData, String>>[
+                        LineSeries<_SensorsData, String>(
+                          name: 'y',
+                          dataSource: yData,
+                          xValueMapper: (_SensorsData data, _) => data.time,
+                          yValueMapper: (_SensorsData data, _) => data.coordinate,
+                          dataLabelSettings: DataLabelSettings(isVisible: true),
+                        ),
+                      ],
+                  ),
+                  SfCartesianChart(
+                    primaryXAxis: CategoryAxis(),
+                    title: ChartTitle(text: 'Юзверь Аксель z'),
+                    legend: const Legend(isVisible: true),
+                    tooltipBehavior: TooltipBehavior(enable: true),
+                    series: <ChartSeries<_SensorsData, String>>[
+                      LineSeries<_SensorsData, String>(
+                        name: 'z',
+                        dataSource: zData,
+                        xValueMapper: (_SensorsData data, _) => data.time,
+                        yValueMapper: (_SensorsData data, _) => data.coordinate,
+                        dataLabelSettings: DataLabelSettings(isVisible: true),
+                      ),
+                    ],
+                  ),
+                  ElevatedButton(
+                    child: const Text('Close BottomSheet'),
+                    onPressed: () => Navigator.pop(context),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -154,13 +249,9 @@ class _AccelerometerDemoScreenState extends State<AccelerometerDemoScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Container(
-              padding: const EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                  border: Border.all(
-                color: Colors.blueGrey,
-              )),
-              child: Text(_userAccelerometerValues.toString())),
+          ...?_userAccelerometerValues?.map((e) => ListTile(
+            title: Text(e.toString()),
+          )),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -185,30 +276,26 @@ class _AccelerometerDemoScreenState extends State<AccelerometerDemoScreen> {
             onPressed: generateCsvFile,
             child: Text("save to file lol"),
           ),
-
-
-
-
-
-
-
-          /*SfCartesianChart(
-              primaryXAxis: CategoryAxis(),
-              title: ChartTitle(text: 'Аксель'),
-              legend: const Legend(isVisible: true),
-              tooltipBehavior: TooltipBehavior(enable: true),
-              series: <ChartSeries<_SensorsDto, String>>[
-                LineSeries<_SensorsDto, String>(
-                  dataSource: data,
-                  xValueMapper: (_SensorsDto data, _) => DateTime.now().second.toString(),
-                  yValueMapper: (_SensorsDto data, _) => data.x,
-                  dataLabelSettings: DataLabelSettings(isVisible: true),
-                ),
-              ]
-
-          )*/
+          ElevatedButton(
+            onPressed: generatePlot,
+            child: Text("generate plot mem"),
+          ),
         ],
       ),
     );
   }
+}
+
+class _SalesData {
+  _SalesData(this.year, this.sales);
+
+  final String year;
+  final double sales;
+}
+
+class _SensorsData {
+  String time;
+  double coordinate;
+
+  _SensorsData(this.time, this.coordinate);
 }
