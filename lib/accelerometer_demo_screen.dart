@@ -9,6 +9,7 @@ import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:sensors_plus/sensors_plus.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 
 @RoutePage()
 class AccelerometerDemoScreen extends StatefulWidget {
@@ -92,20 +93,28 @@ class _AccelerometerDemoScreenState extends State<AccelerometerDemoScreen> {
       Permission.storage,
     ].request();*/
     PermissionStatus storageStatus;
+    PermissionStatus manageStorageStatus;
     storageStatus = await Permission.storage.request();
-    print(storageStatus);
-
-    List<dynamic> associateList = [
-      {"number": 1, "lat": "14.97534313396318", "lon": "101.22998536005622"},
-      {"number": 2, "lat": "14.97534313396318", "lon": "101.22998536005622"},
-      {"number": 3, "lat": "14.97534313396318", "lon": "101.22998536005622"},
-      {"number": 4, "lat": "14.97534313396318", "lon": "101.22998536005622"}
-    ];
+    manageStorageStatus = await Permission.manageExternalStorage.request();
+    // print(storageStatus);
 
     List<List<dynamic>> rows = [];
 
     List<dynamic> row = [];
-    row.add("number");
+    row.add("Time");
+    row.add("xyz");
+    rows.add(row);
+
+    for (var el in userAccelData.entries) {
+      List<dynamic> row = [];
+      row.add(el.key);
+      row.add(el.value[0]);
+      row.add(el.value[1]);
+      row.add(el.value[2]);
+      rows.add(row);
+    }
+
+    /*row.add("number");
     row.add("latitude");
     row.add("longitude");
     rows.add(row);
@@ -115,9 +124,11 @@ class _AccelerometerDemoScreenState extends State<AccelerometerDemoScreen> {
       row.add(associateList[i]["lat"]);
       row.add(associateList[i]["lon"]);
       rows.add(row);
-    }
+    }*/
+
 
     String csv = const ListToCsvConverter().convert(rows);
+    print(csv);
 
     Directory? directory;
     directory = Directory('/storage/emulated/0/Download');
@@ -125,9 +136,9 @@ class _AccelerometerDemoScreenState extends State<AccelerometerDemoScreen> {
     if (!await directory.exists()) directory = await getExternalStorageDirectory();
 
     String file = directory!.path;
-    print(directory);
+    // print(directory);
 
-    File f = File(file + "/accelData.csv");
+    File f = File(file + "/accelDataV3.csv");
 
     f.writeAsString(csv);
   }
@@ -174,6 +185,28 @@ class _AccelerometerDemoScreenState extends State<AccelerometerDemoScreen> {
             onPressed: generateCsvFile,
             child: Text("save to file lol"),
           ),
+
+
+
+
+
+
+
+          /*SfCartesianChart(
+              primaryXAxis: CategoryAxis(),
+              title: ChartTitle(text: 'Аксель'),
+              legend: const Legend(isVisible: true),
+              tooltipBehavior: TooltipBehavior(enable: true),
+              series: <ChartSeries<_SensorsDto, String>>[
+                LineSeries<_SensorsDto, String>(
+                  dataSource: data,
+                  xValueMapper: (_SensorsDto data, _) => DateTime.now().second.toString(),
+                  yValueMapper: (_SensorsDto data, _) => data.x,
+                  dataLabelSettings: DataLabelSettings(isVisible: true),
+                ),
+              ]
+
+          )*/
         ],
       ),
     );
