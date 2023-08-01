@@ -16,6 +16,10 @@ dependencies:
   get_it:
   flutter_reactive_ble:
   permission_handler:
+  syncfusion_flutter_charts:
+  intl:
+  csv:
+  path_provider:
   cupertino_icons: ^1.0.2
 
 dev_dependencies:
