@@ -102,7 +102,9 @@ class _AccelerometerDemoScreenState extends State<AccelerometerDemoScreen> {
 
     List<dynamic> row = [];
     row.add("Time");
-    row.add("xyz");
+    row.add("x");
+    row.add("y");
+    row.add("z");
     rows.add(row);
 
     for (var el in userAccelData.entries) {
@@ -114,7 +116,12 @@ class _AccelerometerDemoScreenState extends State<AccelerometerDemoScreen> {
       rows.add(row);
     }
 
-    String csv = const ListToCsvConverter().convert(rows);
+    String csv = const ListToCsvConverter().convert(
+        rows,
+      fieldDelimiter: ',',
+      eol: '\n',
+    );
+    print(rows);
     print(csv);
 
     Directory? directory;
