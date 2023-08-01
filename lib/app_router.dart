@@ -19,5 +19,6 @@ class AppRouter extends _$AppRouter {
         AutoRoute(page: SensorsPlusDemoRoute.page),
         AutoRoute(page: BleExampleRoute.page),
         AutoRoute(page: BleDemoRoute.page),
+        AutoRoute(page: AccelerometerDemoRoute.page),
       ];
 }
