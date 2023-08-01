@@ -6,6 +6,8 @@ import 'package:flutter/services.dart';
 import 'package:sensors_plus/sensors_plus.dart';
 import 'dart:math' as math;
 
+import 'package:syncfusion_flutter_charts/charts.dart';
+
 @RoutePage()
 class SensorsPlusDemoScreen extends StatelessWidget {
   const SensorsPlusDemoScreen({Key? key}) : super(key: key);
@@ -43,17 +45,117 @@ class _MyHomePageState extends State<MyHomePage> {
   List<double>? _magnetometerValues;
   final _streamSubscriptions = <StreamSubscription<dynamic>>[];
 
+  Map<String, _SensorsDto> userAccelData = {'0': _SensorsDto(0, 0, 0)};
+
+
+  void writeData() {
+
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _streamSubscriptions.add(
+      userAccelerometerEvents.listen(
+            (UserAccelerometerEvent event) {
+          setState(() {
+            _userAccelerometerValues = <double>[event.x, event.y, event.z];
+            userAccelData?[DateTime.now().toString()] = _SensorsDto(event.x, event.y, event.z);
+          });
+        },
+        onError: (e) {
+          showDialog(
+              context: context,
+              builder: (context) {
+                return const AlertDialog(
+                  title: Text("Sensor Not Found"),
+                  content: Text(
+                      "It seems that your device doesn't support Accelerometer Sensor"),
+                );
+              });
+        },
+        cancelOnError: true,
+      ),
+    );
+    _streamSubscriptions.add(
+      accelerometerEvents.listen(
+            (AccelerometerEvent event) {
+          setState(() {
+            _accelerometerValues = <double>[event.x, event.y, event.z];
+          });
+        },
+        onError: (e) {
+          showDialog(
+              context: context,
+              builder: (context) {
+                return const AlertDialog(
+                  title: Text("Sensor Not Found"),
+                  content: Text(
+                      "It seems that your device doesn't support Gyroscope Sensor"),
+                );
+              });
+        },
+        cancelOnError: true,
+      ),
+    );
+    _streamSubscriptions.add(
+      gyroscopeEvents.listen(
+            (GyroscopeEvent event) {
+          setState(() {
+            _gyroscopeValues = <double>[event.x, event.y, event.z];
+          });
+        },
+        onError: (e) {
+          showDialog(
+              context: context,
+              builder: (context) {
+                return const AlertDialog(
+                  title: Text("Sensor Not Found"),
+                  content: Text(
+                      "It seems that your device doesn't support User Accelerometer Sensor"),
+                );
+              });
+        },
+        cancelOnError: true,
+      ),
+    );
+    _streamSubscriptions.add(
+      magnetometerEvents.listen(
+            (MagnetometerEvent event) {
+          setState(() {
+            _magnetometerValues = <double>[event.x, event.y, event.z];
+          });
+        },
+        onError: (e) {
+          showDialog(
+              context: context,
+              builder: (context) {
+                return const AlertDialog(
+                  title: Text("Sensor Not Found"),
+                  content: Text(
+                      "It seems that your device doesn't support Magnetometer Sensor"),
+                );
+              });
+        },
+        cancelOnError: true,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    final userAccelerometer = _userAccelerometerValues
-        ?.map((double v) => v.toStringAsFixed(1))
-        .toList();
-    final accelerometer =
-        _accelerometerValues?.map((double v) => v.toStringAsFixed(1)).toList();
-    final gyroscope =
-        _gyroscopeValues?.map((double v) => v.toStringAsFixed(1)).toList();
-    final magnetometer =
-        _magnetometerValues?.map((double v) => v.toStringAsFixed(1)).toList();
+    final userAccelerometer = _userAccelerometerValues?.map((double v) => v.toStringAsFixed(3)).toList();
+    final accelerometer = _accelerometerValues?.map((double v) => v.toStringAsFixed(1)).toList();
+    final gyroscope = _gyroscopeValues?.map((double v) => v.toStringAsFixed(1)).toList();
+    final magnetometer = _magnetometerValues?.map((double v) => v.toStringAsFixed(1)).toList();
+
+
+    // print(_userAccelerometerValues);
+    // print(_accelerometerValues);
+    // print(_gyroscopeValues);
+    // print(_magnetometerValues);
+
+    print(userAccelData);
 
     return Scaffold(
       appBar: AppBar(
@@ -88,6 +190,25 @@ class _MyHomePageState extends State<MyHomePage> {
               ],
             ),
           ),
+
+
+          /*SfCartesianChart(
+            primaryXAxis: CategoryAxis(),
+            title: ChartTitle(text: 'Аксель'),
+            legend: const Legend(isVisible: true),
+            tooltipBehavior: TooltipBehavior(enable: true),
+              series: <ChartSeries<_SensorsDto, String>>[
+                LineSeries<_SensorsDto, String>(
+                    dataSource: data,
+                    xValueMapper: (_SensorsDto data, _) => DateTime.now().second.toString(),
+                    yValueMapper: (_SensorsDto data, _) => data.x,
+                    dataLabelSettings: DataLabelSettings(isVisible: true),
+                ),
+              ]
+
+          ),*/
+
+
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: Row(
@@ -128,95 +249,58 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
-  @override
-  void initState() {
-    super.initState();
-    _streamSubscriptions.add(
-      userAccelerometerEvents.listen(
-        (UserAccelerometerEvent event) {
-          setState(() {
-            _userAccelerometerValues = <double>[event.x, event.y, event.z];
-          });
-        },
-        onError: (e) {
-          showDialog(
-              context: context,
-              builder: (context) {
-                return const AlertDialog(
-                  title: Text("Sensor Not Found"),
-                  content: Text(
-                      "It seems that your device doesn't support Accelerometer Sensor"),
-                );
-              });
-        },
-        cancelOnError: true,
-      ),
-    );
-    _streamSubscriptions.add(
-      accelerometerEvents.listen(
-        (AccelerometerEvent event) {
-          setState(() {
-            _accelerometerValues = <double>[event.x, event.y, event.z];
-          });
-        },
-        onError: (e) {
-          showDialog(
-              context: context,
-              builder: (context) {
-                return const AlertDialog(
-                  title: Text("Sensor Not Found"),
-                  content: Text(
-                      "It seems that your device doesn't support Gyroscope Sensor"),
-                );
-              });
-        },
-        cancelOnError: true,
-      ),
-    );
-    _streamSubscriptions.add(
-      gyroscopeEvents.listen(
-        (GyroscopeEvent event) {
-          setState(() {
-            _gyroscopeValues = <double>[event.x, event.y, event.z];
-          });
-        },
-        onError: (e) {
-          showDialog(
-              context: context,
-              builder: (context) {
-                return const AlertDialog(
-                  title: Text("Sensor Not Found"),
-                  content: Text(
-                      "It seems that your device doesn't support User Accelerometer Sensor"),
-                );
-              });
-        },
-        cancelOnError: true,
-      ),
-    );
-    _streamSubscriptions.add(
-      magnetometerEvents.listen(
-        (MagnetometerEvent event) {
-          setState(() {
-            _magnetometerValues = <double>[event.x, event.y, event.z];
-          });
-        },
-        onError: (e) {
-          showDialog(
-              context: context,
-              builder: (context) {
-                return const AlertDialog(
-                  title: Text("Sensor Not Found"),
-                  content: Text(
-                      "It seems that your device doesn't support Magnetometer Sensor"),
-                );
-              });
-        },
-        cancelOnError: true,
-      ),
-    );
-  }
 }
+
+
+class _SensorsDto {
+  _SensorsDto(this.x, this.y, this.z);
+
+  final double x;
+  final double y;
+  final double z;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 class Snake extends StatefulWidget {
   Snake({Key? key, this.rows = 20, this.columns = 20, this.cellSize = 10.0})

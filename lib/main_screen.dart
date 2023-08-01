@@ -23,7 +23,9 @@ class MainScreen extends StatelessWidget {
                 // AutoRouter.of(context).push(GyroscopeDemoRoute());
                   context.router.navigate(GyroscopeDemoRoute());
             }, child: const Text("Gyro demo")),
-            ElevatedButton(onPressed: () {}, child: const Text("Accel demo")),
+            ElevatedButton(onPressed: () {
+              AutoRouter.of(context).push(AccelerometerDemoRoute());
+            }, child: const Text("Accel demo")),
             ElevatedButton(onPressed: () {}, child: const Text("Magnetometer demo")),
             ElevatedButton(onPressed: () {
               AutoRouter.of(context).navigate(SensorsPlusDemoRoute());
