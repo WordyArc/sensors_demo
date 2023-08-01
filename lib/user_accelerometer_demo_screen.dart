@@ -12,29 +12,29 @@ import 'package:sensors_plus/sensors_plus.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 @RoutePage()
-class AccelerometerDemoScreen extends StatefulWidget {
-  const AccelerometerDemoScreen({super.key});
+class UserAccelerometerDemoScreen extends StatefulWidget {
+  const UserAccelerometerDemoScreen({super.key});
 
   @override
-  State<AccelerometerDemoScreen> createState() =>
-      _AccelerometerDemoScreenState();
+  State<UserAccelerometerDemoScreen> createState() =>
+      _UserAccelerometerDemoScreenState();
 }
 
-class _AccelerometerDemoScreenState extends State<AccelerometerDemoScreen> {
-  List<double>? _accelerometerValues;
+class _UserAccelerometerDemoScreenState extends State<UserAccelerometerDemoScreen> {
+  List<double>? _userAccelerometerValues;
   final _streamSubscriptions = <StreamSubscription<dynamic>>[];
-  Map<String, List<double>> accelData = {
+  Map<String, List<double>> userAccelData = {
     '00:00': [0, 0, 0]
   };
 
   void accelSubscribe() {
     _streamSubscriptions.add(
-      accelerometerEvents.listen(
-        (AccelerometerEvent event) {
+      userAccelerometerEvents.listen(
+        (UserAccelerometerEvent event) {
           setState(() {
-            _accelerometerValues = <double>[event.x, event.y, event.z];
-            accelData[DateFormat.Hms().format(DateTime.now())] =
-                _accelerometerValues!;
+            _userAccelerometerValues = <double>[event.x, event.y, event.z];
+            userAccelData[DateFormat.Hms().format(DateTime.now())] =
+                _userAccelerometerValues!;
           });
         },
         onError: (e) {
@@ -71,7 +71,7 @@ class _AccelerometerDemoScreenState extends State<AccelerometerDemoScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
-                  ...accelData.entries.map((el) => ListTile(
+                  ...userAccelData.entries.map((el) => ListTile(
                         title: Text(el.key),
                         subtitle: Text(el.value.toString()),
                       )),
@@ -97,6 +97,7 @@ class _AccelerometerDemoScreenState extends State<AccelerometerDemoScreen> {
     storageStatus = await Permission.storage.request();
     manageStorageStatus = await Permission.manageExternalStorage.request();
 
+
     List<List<dynamic>> rows = [];
 
     List<dynamic> row = [];
@@ -106,7 +107,7 @@ class _AccelerometerDemoScreenState extends State<AccelerometerDemoScreen> {
     row.add("z");
     rows.add(row);
 
-    for (var el in accelData.entries) {
+    for (var el in userAccelData.entries) {
       List<dynamic> row = [];
       row.add(el.key);
       row.add(el.value[0]);
@@ -116,7 +117,7 @@ class _AccelerometerDemoScreenState extends State<AccelerometerDemoScreen> {
     }
 
     String csv = const ListToCsvConverter().convert(
-      rows,
+        rows,
       fieldDelimiter: ',',
       eol: '\n',
     );
@@ -132,7 +133,7 @@ class _AccelerometerDemoScreenState extends State<AccelerometerDemoScreen> {
     String file = directory!.path;
     // print(directory);
 
-    File f = File(file + "/accelData.csv");
+    File f = File(file + "/userAccelData.csv");
 
     f.writeAsString(csv);
   }
@@ -141,7 +142,7 @@ class _AccelerometerDemoScreenState extends State<AccelerometerDemoScreen> {
     List<_SensorsData> xData = [];
     List<_SensorsData> yData = [];
     List<_SensorsData> zData = [];
-    for (var elem in accelData.entries) {
+    for (var elem in userAccelData.entries) {
       xData.add(_SensorsData(elem.key, elem.value[0]));
       yData.add(_SensorsData(elem.key, elem.value[1]));
       zData.add(_SensorsData(elem.key, elem.value[2]));
@@ -160,7 +161,7 @@ class _AccelerometerDemoScreenState extends State<AccelerometerDemoScreen> {
                 children: <Widget>[
                   SfCartesianChart(
                     primaryXAxis: CategoryAxis(),
-                    title: ChartTitle(text: 'Аксель XYZ'),
+                    title: ChartTitle(text: 'Юзверь Аксель XYZ'),
                     legend: const Legend(isVisible: true),
                     tooltipBehavior: TooltipBehavior(enable: true),
                     series: <ChartSeries<_SensorsData, String>>[
@@ -188,38 +189,38 @@ class _AccelerometerDemoScreenState extends State<AccelerometerDemoScreen> {
                     ],
                   ),
                   SfCartesianChart(
-                    primaryXAxis: CategoryAxis(),
-                    title: ChartTitle(text: 'Аксель x'),
-                    legend: const Legend(isVisible: true),
-                    tooltipBehavior: TooltipBehavior(enable: true),
-                    series: <ChartSeries<_SensorsData, String>>[
-                      LineSeries<_SensorsData, String>(
-                        name: 'x',
-                        dataSource: xData,
-                        xValueMapper: (_SensorsData data, _) => data.time,
-                        yValueMapper: (_SensorsData data, _) => data.coordinate,
-                        dataLabelSettings: DataLabelSettings(isVisible: true),
-                      ),
-                    ],
+                      primaryXAxis: CategoryAxis(),
+                      title: ChartTitle(text: 'Юзверь Аксель x'),
+                      legend: const Legend(isVisible: true),
+                      tooltipBehavior: TooltipBehavior(enable: true),
+                      series: <ChartSeries<_SensorsData, String>>[
+                        LineSeries<_SensorsData, String>(
+                          name: 'x',
+                          dataSource: xData,
+                          xValueMapper: (_SensorsData data, _) => data.time,
+                          yValueMapper: (_SensorsData data, _) => data.coordinate,
+                          dataLabelSettings: DataLabelSettings(isVisible: true),
+                        ),
+                      ],
+                  ),
+                  SfCartesianChart(
+                      primaryXAxis: CategoryAxis(),
+                      title: ChartTitle(text: 'Юзверь Аксель y'),
+                      legend: const Legend(isVisible: true),
+                      tooltipBehavior: TooltipBehavior(enable: true),
+                      series: <ChartSeries<_SensorsData, String>>[
+                        LineSeries<_SensorsData, String>(
+                          name: 'y',
+                          dataSource: yData,
+                          xValueMapper: (_SensorsData data, _) => data.time,
+                          yValueMapper: (_SensorsData data, _) => data.coordinate,
+                          dataLabelSettings: DataLabelSettings(isVisible: true),
+                        ),
+                      ],
                   ),
                   SfCartesianChart(
                     primaryXAxis: CategoryAxis(),
-                    title: ChartTitle(text: 'Аксель y'),
-                    legend: const Legend(isVisible: true),
-                    tooltipBehavior: TooltipBehavior(enable: true),
-                    series: <ChartSeries<_SensorsData, String>>[
-                      LineSeries<_SensorsData, String>(
-                        name: 'y',
-                        dataSource: yData,
-                        xValueMapper: (_SensorsData data, _) => data.time,
-                        yValueMapper: (_SensorsData data, _) => data.coordinate,
-                        dataLabelSettings: DataLabelSettings(isVisible: true),
-                      ),
-                    ],
-                  ),
-                  SfCartesianChart(
-                    primaryXAxis: CategoryAxis(),
-                    title: ChartTitle(text: 'Аксель z'),
+                    title: ChartTitle(text: 'Юзверь Аксель z'),
                     legend: const Legend(isVisible: true),
                     tooltipBehavior: TooltipBehavior(enable: true),
                     series: <ChartSeries<_SensorsData, String>>[
@@ -255,9 +256,9 @@ class _AccelerometerDemoScreenState extends State<AccelerometerDemoScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          ...?_accelerometerValues?.map((e) => ListTile(
-                title: Text(e.toString()),
-              )),
+          ...?_userAccelerometerValues?.map((e) => ListTile(
+            title: Text(e.toString()),
+          )),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
