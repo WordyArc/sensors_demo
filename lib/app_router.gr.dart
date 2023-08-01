@@ -15,10 +15,16 @@ abstract class _$AppRouter extends RootStackRouter {
 
   @override
   final Map<String, PageFactory> pagesMap = {
-    SensorsPlusDemoRoute.name: (routeData) {
+    AccelerometerDemoRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const SensorsPlusDemoScreen(),
+        child: const AccelerometerDemoScreen(),
+      );
+    },
+    BleDemoRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const BleDemoScreen(),
       );
     },
     BleExampleRoute.name: (routeData) {
@@ -31,16 +37,10 @@ abstract class _$AppRouter extends RootStackRouter {
         ),
       );
     },
-    BleDemoRoute.name: (routeData) {
+    GyroscopeDemoRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const BleDemoScreen(),
-      );
-    },
-    AccelerometerDemoRoute.name: (routeData) {
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const AccelerometerDemoScreen(),
+        child: const GyroscopeDemoScreen(),
       );
     },
     MainRoute.name: (routeData) {
@@ -49,25 +49,45 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const MainScreen(),
       );
     },
-    GyroscopeDemoRoute.name: (routeData) {
+    SensorsPlusDemoRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const GyroscopeDemoScreen(),
+        child: const SensorsPlusDemoScreen(),
+      );
+    },
+    UserAccelerometerDemoRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const UserAccelerometerDemoScreen(),
       );
     },
   };
 }
 
 /// generated route for
-/// [SensorsPlusDemoScreen]
-class SensorsPlusDemoRoute extends PageRouteInfo<void> {
-  const SensorsPlusDemoRoute({List<PageRouteInfo>? children})
+/// [AccelerometerDemoScreen]
+class AccelerometerDemoRoute extends PageRouteInfo<void> {
+  const AccelerometerDemoRoute({List<PageRouteInfo>? children})
       : super(
-          SensorsPlusDemoRoute.name,
+          AccelerometerDemoRoute.name,
           initialChildren: children,
         );
 
-  static const String name = 'SensorsPlusDemoRoute';
+  static const String name = 'AccelerometerDemoRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [BleDemoScreen]
+class BleDemoRoute extends PageRouteInfo<void> {
+  const BleDemoRoute({List<PageRouteInfo>? children})
+      : super(
+          BleDemoRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'BleDemoRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }
@@ -111,29 +131,15 @@ class BleExampleRouteArgs {
 }
 
 /// generated route for
-/// [BleDemoScreen]
-class BleDemoRoute extends PageRouteInfo<void> {
-  const BleDemoRoute({List<PageRouteInfo>? children})
+/// [GyroscopeDemoScreen]
+class GyroscopeDemoRoute extends PageRouteInfo<void> {
+  const GyroscopeDemoRoute({List<PageRouteInfo>? children})
       : super(
-          BleDemoRoute.name,
+          GyroscopeDemoRoute.name,
           initialChildren: children,
         );
 
-  static const String name = 'BleDemoRoute';
-
-  static const PageInfo<void> page = PageInfo<void>(name);
-}
-
-/// generated route for
-/// [AccelerometerDemoScreen]
-class AccelerometerDemoRoute extends PageRouteInfo<void> {
-  const AccelerometerDemoRoute({List<PageRouteInfo>? children})
-      : super(
-          AccelerometerDemoRoute.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'AccelerometerDemoRoute';
+  static const String name = 'GyroscopeDemoRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }
@@ -153,15 +159,29 @@ class MainRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [GyroscopeDemoScreen]
-class GyroscopeDemoRoute extends PageRouteInfo<void> {
-  const GyroscopeDemoRoute({List<PageRouteInfo>? children})
+/// [SensorsPlusDemoScreen]
+class SensorsPlusDemoRoute extends PageRouteInfo<void> {
+  const SensorsPlusDemoRoute({List<PageRouteInfo>? children})
       : super(
-          GyroscopeDemoRoute.name,
+          SensorsPlusDemoRoute.name,
           initialChildren: children,
         );
 
-  static const String name = 'GyroscopeDemoRoute';
+  static const String name = 'SensorsPlusDemoRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [UserAccelerometerDemoScreen]
+class UserAccelerometerDemoRoute extends PageRouteInfo<void> {
+  const UserAccelerometerDemoRoute({List<PageRouteInfo>? children})
+      : super(
+          UserAccelerometerDemoRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'UserAccelerometerDemoRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }
