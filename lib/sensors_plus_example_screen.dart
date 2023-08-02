@@ -47,20 +47,18 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Map<String, _SensorsDto> userAccelData = {'0': _SensorsDto(0, 0, 0)};
 
-
-  void writeData() {
-
-  }
+  void writeData() {}
 
   @override
   void initState() {
     super.initState();
     _streamSubscriptions.add(
       userAccelerometerEvents.listen(
-            (UserAccelerometerEvent event) {
+        (UserAccelerometerEvent event) {
           setState(() {
             _userAccelerometerValues = <double>[event.x, event.y, event.z];
-            userAccelData?[DateTime.now().toString()] = _SensorsDto(event.x, event.y, event.z);
+            userAccelData?[DateTime.now().toString()] =
+                _SensorsDto(event.x, event.y, event.z);
           });
         },
         onError: (e) {
@@ -79,7 +77,7 @@ class _MyHomePageState extends State<MyHomePage> {
     );
     _streamSubscriptions.add(
       accelerometerEvents.listen(
-            (AccelerometerEvent event) {
+        (AccelerometerEvent event) {
           setState(() {
             _accelerometerValues = <double>[event.x, event.y, event.z];
           });
@@ -100,7 +98,7 @@ class _MyHomePageState extends State<MyHomePage> {
     );
     _streamSubscriptions.add(
       gyroscopeEvents.listen(
-            (GyroscopeEvent event) {
+        (GyroscopeEvent event) {
           setState(() {
             _gyroscopeValues = <double>[event.x, event.y, event.z];
           });
@@ -121,7 +119,7 @@ class _MyHomePageState extends State<MyHomePage> {
     );
     _streamSubscriptions.add(
       magnetometerEvents.listen(
-            (MagnetometerEvent event) {
+        (MagnetometerEvent event) {
           setState(() {
             _magnetometerValues = <double>[event.x, event.y, event.z];
           });
@@ -144,18 +142,22 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final userAccelerometer = _userAccelerometerValues?.map((double v) => v.toStringAsFixed(3)).toList();
-    final accelerometer = _accelerometerValues?.map((double v) => v.toStringAsFixed(1)).toList();
-    final gyroscope = _gyroscopeValues?.map((double v) => v.toStringAsFixed(1)).toList();
-    final magnetometer = _magnetometerValues?.map((double v) => v.toStringAsFixed(1)).toList();
-
+    final userAccelerometer = _userAccelerometerValues
+        ?.map((double v) => v.toStringAsFixed(3))
+        .toList();
+    final accelerometer =
+        _accelerometerValues?.map((double v) => v.toStringAsFixed(1)).toList();
+    final gyroscope =
+        _gyroscopeValues?.map((double v) => v.toStringAsFixed(1)).toList();
+    final magnetometer =
+        _magnetometerValues?.map((double v) => v.toStringAsFixed(1)).toList();
 
     // print(_userAccelerometerValues);
     // print(_accelerometerValues);
     // print(_gyroscopeValues);
     // print(_magnetometerValues);
 
-    print(userAccelData);
+    // print(userAccelData);
 
     return Scaffold(
       appBar: AppBar(
@@ -191,7 +193,6 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ),
 
-
           /*SfCartesianChart(
             primaryXAxis: CategoryAxis(),
             title: ChartTitle(text: 'Аксель'),
@@ -207,7 +208,6 @@ class _MyHomePageState extends State<MyHomePage> {
               ]
 
           ),*/
-
 
           Padding(
             padding: const EdgeInsets.all(16.0),
@@ -248,9 +248,7 @@ class _MyHomePageState extends State<MyHomePage> {
       subscription.cancel();
     }
   }
-
 }
-
 
 class _SensorsDto {
   _SensorsDto(this.x, this.y, this.z);
@@ -259,48 +257,6 @@ class _SensorsDto {
   final double y;
   final double z;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 class Snake extends StatefulWidget {
   Snake({Key? key, this.rows = 20, this.columns = 20, this.cellSize = 10.0})
@@ -377,10 +333,10 @@ class SnakeState extends State<Snake> {
     super.initState();
     _streamSubscription =
         accelerometerEvents.listen((AccelerometerEvent event) {
-          setState(() {
-            acceleration = event;
-          });
-        });
+      setState(() {
+        acceleration = event;
+      });
+    });
 
     _timer = Timer.periodic(const Duration(milliseconds: 200), (_) {
       setState(() {
@@ -393,10 +349,10 @@ class SnakeState extends State<Snake> {
     final newDirection = acceleration == null
         ? null
         : acceleration!.x.abs() < 1.0 && acceleration!.y.abs() < 1.0
-        ? null
-        : (acceleration!.x.abs() < acceleration!.y.abs())
-        ? math.Point<int>(0, acceleration!.y.sign.toInt())
-        : math.Point<int>(-acceleration!.x.sign.toInt(), 0);
+            ? null
+            : (acceleration!.x.abs() < acceleration!.y.abs())
+                ? math.Point<int>(0, acceleration!.y.sign.toInt())
+                : math.Point<int>(-acceleration!.x.sign.toInt(), 0);
     state!.step(newDirection);
   }
 }

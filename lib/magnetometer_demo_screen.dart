@@ -11,28 +11,28 @@ import 'package:sensors_plus/sensors_plus.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 @RoutePage()
-class GyroscopeDemoScreen extends StatefulWidget {
-  const GyroscopeDemoScreen({super.key});
+class MagnetometerDemoScreen extends StatefulWidget {
+  const MagnetometerDemoScreen({super.key});
 
   @override
-  State<GyroscopeDemoScreen> createState() => _GyroscopeDemoScreenState();
+  State<MagnetometerDemoScreen> createState() => _MagnetometerDemoScreenState();
 }
 
-class _GyroscopeDemoScreenState extends State<GyroscopeDemoScreen> {
-  List<double>? _gyroscopeValues;
+class _MagnetometerDemoScreenState extends State<MagnetometerDemoScreen> {
+  List<double>? _magnetometerValues;
   final _streamSubscriptions = <StreamSubscription<dynamic>>[];
-  Map<String, List<double>> gyroscopeData = {
+  Map<String, List<double>> magnetometerData = {
     '00:00': [0, 0, 0]
   };
 
   void sensorsSubscribe() {
     _streamSubscriptions.add(
-      gyroscopeEvents.listen(
-        (GyroscopeEvent event) {
+      magnetometerEvents.listen(
+        (MagnetometerEvent event) {
           setState(() {
-            _gyroscopeValues = <double>[event.x, event.y, event.z];
-            gyroscopeData[DateFormat.Hms().format(DateTime.now())] =
-                _gyroscopeValues!;
+            _magnetometerValues = <double>[event.x, event.y, event.z];
+            magnetometerData[DateFormat.Hms().format(DateTime.now())] =
+                _magnetometerValues!;
           });
         },
         onError: (e) {
@@ -69,7 +69,7 @@ class _GyroscopeDemoScreenState extends State<GyroscopeDemoScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
-                  ...gyroscopeData.entries.map((el) => ListTile(
+                  ...magnetometerData.entries.map((el) => ListTile(
                         title: Text(el.key),
                         subtitle: Text(el.value.toString()),
                       )),
@@ -104,7 +104,7 @@ class _GyroscopeDemoScreenState extends State<GyroscopeDemoScreen> {
     row.add("z");
     rows.add(row);
 
-    for (var el in gyroscopeData.entries) {
+    for (var el in magnetometerData.entries) {
       List<dynamic> row = [];
       row.add(el.key);
       row.add(el.value[0]);
@@ -130,7 +130,7 @@ class _GyroscopeDemoScreenState extends State<GyroscopeDemoScreen> {
     String file = directory!.path;
     // print(directory);
 
-    File f = File(file + "/gyroData.csv");
+    File f = File(file + "/magnetometerData.csv");
 
     f.writeAsString(csv);
   }
@@ -139,7 +139,7 @@ class _GyroscopeDemoScreenState extends State<GyroscopeDemoScreen> {
     List<_SensorsData> xData = [];
     List<_SensorsData> yData = [];
     List<_SensorsData> zData = [];
-    for (var elem in gyroscopeData.entries) {
+    for (var elem in magnetometerData.entries) {
       xData.add(_SensorsData(elem.key, elem.value[0]));
       yData.add(_SensorsData(elem.key, elem.value[1]));
       zData.add(_SensorsData(elem.key, elem.value[2]));
@@ -158,7 +158,7 @@ class _GyroscopeDemoScreenState extends State<GyroscopeDemoScreen> {
                 children: <Widget>[
                   SfCartesianChart(
                     primaryXAxis: CategoryAxis(),
-                    title: ChartTitle(text: 'Гиро XYZ'),
+                    title: ChartTitle(text: 'Магнетометр XYZ'),
                     legend: const Legend(isVisible: true),
                     tooltipBehavior: TooltipBehavior(enable: true),
                     series: <ChartSeries<_SensorsData, String>>[
@@ -187,7 +187,7 @@ class _GyroscopeDemoScreenState extends State<GyroscopeDemoScreen> {
                   ),
                   SfCartesianChart(
                     primaryXAxis: CategoryAxis(),
-                    title: ChartTitle(text: 'Гиро x'),
+                    title: ChartTitle(text: 'Магнетометр x'),
                     legend: const Legend(isVisible: true),
                     tooltipBehavior: TooltipBehavior(enable: true),
                     series: <ChartSeries<_SensorsData, String>>[
@@ -202,7 +202,7 @@ class _GyroscopeDemoScreenState extends State<GyroscopeDemoScreen> {
                   ),
                   SfCartesianChart(
                     primaryXAxis: CategoryAxis(),
-                    title: ChartTitle(text: 'Гиро y'),
+                    title: ChartTitle(text: 'Магнетометр y'),
                     legend: const Legend(isVisible: true),
                     tooltipBehavior: TooltipBehavior(enable: true),
                     series: <ChartSeries<_SensorsData, String>>[
@@ -217,7 +217,7 @@ class _GyroscopeDemoScreenState extends State<GyroscopeDemoScreen> {
                   ),
                   SfCartesianChart(
                     primaryXAxis: CategoryAxis(),
-                    title: ChartTitle(text: 'Гиро z'),
+                    title: ChartTitle(text: 'Магнетометр z'),
                     legend: const Legend(isVisible: true),
                     tooltipBehavior: TooltipBehavior(enable: true),
                     series: <ChartSeries<_SensorsData, String>>[
@@ -247,13 +247,13 @@ class _GyroscopeDemoScreenState extends State<GyroscopeDemoScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Гиро demo'),
+        title: Text('Магнетометр demo'),
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          ...?_gyroscopeValues?.map((e) => ListTile(
+          ...?_magnetometerValues?.map((e) => ListTile(
                 title: Text(e.toString()),
               )),
           Row(
