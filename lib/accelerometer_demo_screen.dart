@@ -290,6 +290,14 @@ class _AccelerometerDemoScreenState extends State<AccelerometerDemoScreen> {
       ),
     );
   }
+
+  @override
+  void dispose() {
+    super.dispose();
+    for (final subscription in _streamSubscriptions) {
+      subscription.cancel();
+    }
+  }
 }
 
 class _SensorsData {
