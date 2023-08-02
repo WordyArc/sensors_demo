@@ -18,32 +18,82 @@ class MainScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Spacer(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ElevatedButton(
+                  onPressed: () {
+                    AutoRouter.of(context).push(UserAccelerometerDemoRoute());
+                  },
+                  child: const Text("UserAccel demo"),
+                ),
+                SizedBox(width: 10,),
+                ElevatedButton(
+                  onPressed: () {
+                    AutoRouter.of(context).push(AccelerometerDemoRoute());
+                  },
+                  child: const Text("Accel demo"),
+                ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ElevatedButton(
+                  onPressed: () {
+                    // AutoRouter.of(context).push(GyroscopeDemoRoute());
+                    context.router.navigate(GyroscopeDemoRoute());
+                  },
+                  child: const Text("Gyro demo"),
+                ),
+                const SizedBox(width: 10),
+                ElevatedButton(onPressed: () {
+                  AutoRouter.of(context).push(MagnetometerDemoRoute());
+                }, child: const Text("Magnetometer demo"),
+                ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+
+              children: [
+                ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      padding: EdgeInsets.all(15),
+                      backgroundColor: Colors.amber,
+                    ),
+                    onPressed: () {
+                      AutoRouter.of(context).navigate(
+                        SensorsPlusDemoRoute(),
+                      );
+                    },
+                    child: const Text("demo")),
+                const SizedBox(width: 10),
+                ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      padding: EdgeInsets.all(15),
+                      backgroundColor: Colors.amber,
+                    ),
+                    onPressed: () {
+                      AutoRouter.of(context)
+                          .navigate(BleExampleRoute(title: 'anrey'));
+                    },
+                    child: const Text("ble example"),
+                ),
+              ],
+            ),
             ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.amber,
+                ),
                 onPressed: () {
-                // AutoRouter.of(context).push(GyroscopeDemoRoute());
-                  context.router.navigate(GyroscopeDemoRoute());
-            }, child: const Text("Gyro demo")),
-            ElevatedButton(onPressed: () {
-              AutoRouter.of(context).push(UserAccelerometerDemoRoute());
-            }, child: const Text("UserAccel demo")),
-            ElevatedButton(onPressed: () {
-              AutoRouter.of(context).push(AccelerometerDemoRoute());
-            }, child: const Text("Accel demo")),
-            ElevatedButton(onPressed: () {}, child: const Text("Magnetometer demo")),
-            ElevatedButton(onPressed: () {
-              AutoRouter.of(context).navigate(SensorsPlusDemoRoute());
-            }, child: const Text("demo")),
-            ElevatedButton(onPressed: () {
-              AutoRouter.of(context).navigate(BleExampleRoute(title: 'anrey'));
-            }, child: const Text("ble example")),
-            ElevatedButton(onPressed: () {
-              AutoRouter.of(context).navigate(BleDemoRoute());
-            }, child: Text('ble demo')),
+                  AutoRouter.of(context).navigate(BleDemoRoute());
+                },
+                child: Text('ble demo')),
             Spacer(),
           ],
         ),
       ),
-
     );
   }
 }

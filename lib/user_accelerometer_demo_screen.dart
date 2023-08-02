@@ -250,7 +250,7 @@ class _UserAccelerometerDemoScreenState extends State<UserAccelerometerDemoScree
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Accel demo'),
+        title: Text('User Accel demo'),
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -290,6 +290,14 @@ class _UserAccelerometerDemoScreenState extends State<UserAccelerometerDemoScree
         ],
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    for (final subscription in _streamSubscriptions) {
+      subscription.cancel();
+    }
   }
 }
 
