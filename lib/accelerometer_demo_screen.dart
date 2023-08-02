@@ -33,8 +33,7 @@ class _AccelerometerDemoScreenState extends State<AccelerometerDemoScreen> {
         (AccelerometerEvent event) {
           setState(() {
             _accelerometerValues = <double>[event.x, event.y, event.z];
-            accelData[DateFormat.Hms().format(DateTime.now())] =
-                _accelerometerValues!;
+            accelData[DateTime.now().toString()] = _accelerometerValues!;
           });
         },
         onError: (e) {

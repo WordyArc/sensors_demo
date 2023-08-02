@@ -11,86 +11,188 @@ class MainScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Artyom lol"),
+        title: const Text("Artyom lol"),
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Spacer(),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                ElevatedButton(
-                  onPressed: () {
-                    AutoRouter.of(context).push(UserAccelerometerDemoRoute());
-                  },
-                  child: const Text("UserAccel demo"),
-                ),
-                SizedBox(width: 10,),
-                ElevatedButton(
-                  onPressed: () {
-                    AutoRouter.of(context).push(AccelerometerDemoRoute());
-                  },
-                  child: const Text("Accel demo"),
-                ),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                ElevatedButton(
-                  onPressed: () {
-                    // AutoRouter.of(context).push(GyroscopeDemoRoute());
-                    context.router.navigate(GyroscopeDemoRoute());
-                  },
-                  child: const Text("Gyro demo"),
-                ),
-                const SizedBox(width: 10),
-                ElevatedButton(onPressed: () {
-                  AutoRouter.of(context).push(MagnetometerDemoRoute());
-                }, child: const Text("Magnetometer demo"),
-                ),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-
-              children: [
-                ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      padding: EdgeInsets.all(15),
-                      backgroundColor: Colors.amber,
-                    ),
-                    onPressed: () {
-                      AutoRouter.of(context).navigate(
-                        SensorsPlusDemoRoute(),
-                      );
-                    },
-                    child: const Text("demo")),
-                const SizedBox(width: 10),
-                ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      padding: EdgeInsets.all(15),
-                      backgroundColor: Colors.amber,
-                    ),
-                    onPressed: () {
-                      AutoRouter.of(context)
-                          .navigate(BleExampleRoute(title: 'anrey'));
-                    },
-                    child: const Text("ble example"),
-                ),
-              ],
-            ),
-            ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.amber,
-                ),
-                onPressed: () {
-                  AutoRouter.of(context).navigate(BleDemoRoute());
+            const Spacer(),
+            Card(
+              elevation: 10,
+              child: InkWell(
+                onTap: () {
+                  AutoRouter.of(context).push(const UserAccelerometerDemoRoute());
                 },
-                child: Text('ble demo')),
-            Spacer(),
+                child: const ListTile(
+                  title: Text('User Accel demo'),
+                  leading: Icon(
+                    Icons.sensor_occupied,
+                    color: Colors.blue,
+                    size: 25,
+                  ),
+                  trailing: Icon(
+                    Icons.arrow_forward_ios,
+                    color: Colors.black26,
+                    size: 15,
+                  ),
+
+                ),
+              ),
+            ),
+            Card(
+              elevation: 10,
+              child: InkWell(
+                onTap: () {
+                  AutoRouter.of(context).push(const AccelerometerDemoRoute());
+                },
+                child: const ListTile(
+                  title: Text('Accel demo'),
+                  leading: Icon(
+                    Icons.edgesensor_high,
+                    color: Colors.blue,
+                    size: 25,
+                  ),
+                  trailing: Icon(
+                    Icons.arrow_forward_ios,
+                    color: Colors.black26,
+                    size: 15,
+                  ),
+
+                ),
+              ),
+            ),
+            Card(
+              elevation: 10,
+              child: InkWell(
+                onTap: () {
+                  AutoRouter.of(context).push(const GyroscopeDemoRoute());
+                },
+                child: const ListTile(
+                  title: Text('Gyroscope demo'),
+                  leading: Icon(
+                    Icons.sensors,
+                    color: Colors.blue,
+                    size: 25,
+                  ),
+                  trailing: Icon(
+                    Icons.arrow_forward_ios,
+                    color: Colors.black26,
+                    size: 15,
+                  ),
+
+                ),
+              ),
+            ),
+            Card(
+              elevation: 10,
+              child: InkWell(
+                onTap: () {
+                  AutoRouter.of(context).push(const MagnetometerDemoRoute());
+                },
+                child: const ListTile(
+                  title: Text('Magnetometer demo'),
+                  leading: Icon(
+                    Icons.sensor_door,
+                    color: Colors.blue,
+                    size: 25,
+                  ),
+                  trailing: Icon(
+                    Icons.arrow_forward_ios,
+                    color: Colors.black26,
+                    size: 15,
+                  ),
+
+                ),
+              ),
+            ),
+            const Spacer(),
+            Card(
+              color: Colors.amber,
+              elevation: 10,
+              child: InkWell(
+                onTap: () {
+                  AutoRouter.of(context).push(const SensorsPlusDemoRoute());
+                },
+                child: const ListTile(
+                  title: Text(
+                    'Sensors demo',
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                  leading: Icon(
+                    Icons.sensor_door,
+                    color: Colors.white,
+                    size: 25,
+                  ),
+                  trailing: Icon(
+                    Icons.arrow_forward_ios,
+                    color: Colors.white,
+                    size: 15,
+                  ),
+
+                ),
+              ),
+            ),
+            Card(
+              color: Colors.amber,
+              elevation: 10,
+              child: InkWell(
+                onTap: () {
+                  AutoRouter.of(context).push(BleExampleRoute(title: 'Andrey'));
+                },
+                child: const ListTile(
+                  title: Text(
+                    'Ble example',
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                  leading: Icon(
+                    Icons.sensor_door,
+                    color: Colors.white,
+                    size: 25,
+                  ),
+                  trailing: Icon(
+                    Icons.arrow_forward_ios,
+                    color: Colors.white,
+                    size: 15,
+                  ),
+
+                ),
+              ),
+            ),
+            Card(
+              color: Colors.amber,
+              elevation: 10,
+              child: InkWell(
+                onTap: () {
+                  AutoRouter.of(context).push(const BleDemoRoute());
+                },
+                child: const ListTile(
+                  title: Text(
+                    'ble demo',
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                  leading: Icon(
+                    Icons.sensor_door,
+                    color: Colors.white,
+                    size: 25,
+                  ),
+                  trailing: Icon(
+                    Icons.arrow_forward_ios,
+                    color: Colors.white,
+                    size: 15,
+                  ),
+
+                ),
+              ),
+            ),
+
+            const Spacer(),
           ],
         ),
       ),

@@ -31,7 +31,7 @@ class _GyroscopeDemoScreenState extends State<GyroscopeDemoScreen> {
         (GyroscopeEvent event) {
           setState(() {
             _gyroscopeValues = <double>[event.x, event.y, event.z];
-            gyroscopeData[DateFormat.Hms().format(DateTime.now())] =
+            gyroscopeData[DateTime.now().toString()] =
                 _gyroscopeValues!;
           });
         },

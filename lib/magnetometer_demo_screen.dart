@@ -31,7 +31,7 @@ class _MagnetometerDemoScreenState extends State<MagnetometerDemoScreen> {
         (MagnetometerEvent event) {
           setState(() {
             _magnetometerValues = <double>[event.x, event.y, event.z];
-            magnetometerData[DateFormat.Hms().format(DateTime.now())] =
+            magnetometerData[DateTime.now().toString()] =
                 _magnetometerValues!;
           });
         },
