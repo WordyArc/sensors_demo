@@ -15,6 +15,12 @@ abstract class _$AppRouter extends RootStackRouter {
 
   @override
   final Map<String, PageFactory> pagesMap = {
+    IsLockRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const IsLockScreen(),
+      );
+    },
     UserAccelerometerDemoRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -25,6 +31,24 @@ abstract class _$AppRouter extends RootStackRouter {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const SensorsPlusDemoScreen(),
+      );
+    },
+    WifiDemoRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: WifiDemoScreen(),
+      );
+    },
+    QrDemoRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const QrDemoScreen(),
+      );
+    },
+    MobileScanRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const MobileScanScreen(),
       );
     },
     BleExampleRoute.name: (routeData) {
@@ -49,6 +73,12 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const AccelerometerDemoScreen(),
       );
     },
+    WifiScanDemoRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const WifiScanDemoScreen(),
+      );
+    },
     MainRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -68,6 +98,20 @@ abstract class _$AppRouter extends RootStackRouter {
       );
     },
   };
+}
+
+/// generated route for
+/// [IsLockScreen]
+class IsLockRoute extends PageRouteInfo<void> {
+  const IsLockRoute({List<PageRouteInfo>? children})
+      : super(
+          IsLockRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'IsLockRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
 }
 
 /// generated route for
@@ -94,6 +138,48 @@ class SensorsPlusDemoRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'SensorsPlusDemoRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [WifiDemoScreen]
+class WifiDemoRoute extends PageRouteInfo<void> {
+  const WifiDemoRoute({List<PageRouteInfo>? children})
+      : super(
+          WifiDemoRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'WifiDemoRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [QrDemoScreen]
+class QrDemoRoute extends PageRouteInfo<void> {
+  const QrDemoRoute({List<PageRouteInfo>? children})
+      : super(
+          QrDemoRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'QrDemoRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [MobileScanScreen]
+class MobileScanRoute extends PageRouteInfo<void> {
+  const MobileScanRoute({List<PageRouteInfo>? children})
+      : super(
+          MobileScanRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'MobileScanRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }
@@ -160,6 +246,20 @@ class AccelerometerDemoRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'AccelerometerDemoRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [WifiScanDemoScreen]
+class WifiScanDemoRoute extends PageRouteInfo<void> {
+  const WifiScanDemoRoute({List<PageRouteInfo>? children})
+      : super(
+          WifiScanDemoRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'WifiScanDemoRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

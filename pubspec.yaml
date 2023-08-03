@@ -21,6 +21,11 @@ dependencies:
   csv:
   path_provider:
   cupertino_icons: ^1.0.2
+  wifi_iot:
+  wifi_scan:
+  is_lock_screen:
+  qr_code_scanner:
+  mobile_scanner:
 
 dev_dependencies:
   flutter_test:
