@@ -49,7 +49,7 @@ class MainScreen extends StatelessWidget {
                 child: const ListTile(
                   title: Text('Accel demo'),
                   leading: Icon(
-                    Icons.edgesensor_high,
+                    Icons.sensors,
                     color: Colors.blue,
                     size: 25,
                   ),
@@ -93,7 +93,7 @@ class MainScreen extends StatelessWidget {
                 child: const ListTile(
                   title: Text('Magnetometer demo'),
                   leading: Icon(
-                    Icons.sensor_door,
+                    Icons.sensors,
                     color: Colors.blue,
                     size: 25,
                   ),
@@ -197,34 +197,6 @@ class MainScreen extends StatelessWidget {
               elevation: 10,
               child: InkWell(
                 onTap: () {
-                  AutoRouter.of(context).push(const WifiDemoRoute());
-                },
-                child: const ListTile(
-                  title: Text(
-                    'Wifi demo',
-                    style: TextStyle(
-                      color: Colors.white,
-                    ),
-                  ),
-                  leading: Icon(
-                    Icons.wifi,
-                    color: Colors.white,
-                    size: 25,
-                  ),
-                  trailing: Icon(
-                    Icons.arrow_forward_ios,
-                    color: Colors.white,
-                    size: 15,
-                  ),
-
-                ),
-              ),
-            ),
-            Card(
-              color: Colors.green,
-              elevation: 10,
-              child: InkWell(
-                onTap: () {
                   AutoRouter.of(context).push(const WifiScanDemoRoute());
                 },
                 child: const ListTile(
@@ -280,35 +252,6 @@ class MainScreen extends StatelessWidget {
             ),
             Spacer(),
 
-            Spacer(),
-            Card(
-              color: Colors.purpleAccent,
-              elevation: 10,
-              child: InkWell(
-                onTap: () {
-                  AutoRouter.of(context).push(const QrDemoRoute());
-                },
-                child: const ListTile(
-                  title: Text(
-                    'Qr demo',
-                    style: TextStyle(
-                      color: Colors.white,
-                    ),
-                  ),
-                  leading: Icon(
-                    Icons.qr_code,
-                    color: Colors.white,
-                    size: 25,
-                  ),
-                  trailing: Icon(
-                    Icons.arrow_forward_ios,
-                    color: Colors.white,
-                    size: 15,
-                  ),
-
-                ),
-              ),
-            ),
             Card(
               color: Colors.purpleAccent,
               elevation: 10,

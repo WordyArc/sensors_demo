@@ -1,83 +1,199 @@
-import 'dart:typed_data';
+import 'dart:math';
 
 import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:sensors_demo/scanner_error_widget.dart';
 
 @RoutePage()
 class MobileScanScreen extends StatefulWidget {
-  const MobileScanScreen({super.key});
+  const MobileScanScreen({Key? key}) : super(key: key);
 
   @override
-  State<MobileScanScreen> createState() => _MobileScanScreenState();
+  _MobileScanScreenState createState() => _MobileScanScreenState();
 }
 
-class _MobileScanScreenState extends State<MobileScanScreen> {
-  MobileScannerController cameraController = MobileScannerController(
+class _MobileScanScreenState extends State<MobileScanScreen>
+    with SingleTickerProviderStateMixin {
+  BarcodeCapture? barcode;
+  MobileScannerArguments? arguments;
+
+  final MobileScannerController controller = MobileScannerController(
+    torchEnabled: true,
+    // formats: [BarcodeFormat.qrCode]
+    // facing: CameraFacing.front,
+    // detectionSpeed: DetectionSpeed.normal
+    // detectionTimeoutMs: 1000,
     returnImage: true,
   );
+
+  bool isStarted = true;
+
+  void _startOrStop() async {
+    PermissionStatus storageStatus;
+    PermissionStatus manageStorageStatus;
+    storageStatus = await Permission.storage.request();
+    manageStorageStatus = await Permission.manageExternalStorage.request();
+
+    try {
+      if (isStarted) {
+        controller.stop();
+      } else {
+        controller.start();
+      }
+      setState(() {
+        isStarted = !isStarted;
+      });
+    } on Exception catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Something went wrong! $e'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Mobile Scanner'),
-        actions: [
-          IconButton(
-            color: Colors.white,
-            icon: ValueListenableBuilder(
-              valueListenable: cameraController.torchState,
-              builder: (context, state, child) {
-                switch (state as TorchState) {
-                  case TorchState.off:
-                    return const Icon(Icons.flash_off, color: Colors.grey);
-                  case TorchState.on:
-                    return const Icon(Icons.flash_on, color: Colors.yellow);
-                }
-              },
+      appBar: AppBar(title: const Text('Returning image')),
+      body: SafeArea(
+        child: Column(
+          children: [
+            Expanded(
+              child: barcode?.image != null
+                  ? Transform.rotate(
+                      angle: 90 * pi / 180,
+                      child: Image(
+                        gaplessPlayback: true,
+                        image: MemoryImage(barcode!.image!),
+                        fit: BoxFit.contain,
+                      ),
+                    )
+                  : const Center(
+                      child: Text(
+                        'Your scanned barcode will appear here!',
+                      ),
+                    ),
             ),
-            iconSize: 32.0,
-            onPressed: () => cameraController.toggleTorch(),
-          ),
-          IconButton(
-            color: Colors.white,
-            icon: ValueListenableBuilder(
-              valueListenable: cameraController.cameraFacingState,
-              builder: (context, state, child) {
-                switch (state as CameraFacing) {
-                  case CameraFacing.front:
-                    return const Icon(Icons.camera_front);
-                  case CameraFacing.back:
-                    return const Icon(Icons.camera_rear);
-                }
-              },
+            Expanded(
+              flex: 2,
+              child: ColoredBox(
+                color: Colors.grey,
+                child: Stack(
+                  children: [
+                    MobileScanner(
+                      controller: controller,
+                      errorBuilder: (context, error, child) {
+                        return ScannerErrorWidget(error: error);
+                      },
+                      fit: BoxFit.contain,
+                      onDetect: (barcode) {
+                        setState(() {
+                          this.barcode = barcode;
+                        });
+                      },
+                    ),
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Container(
+                        alignment: Alignment.bottomCenter,
+                        height: 100,
+                        color: Colors.black.withOpacity(0.4),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            IconButton(
+                              color: Colors.white,
+                              icon: ValueListenableBuilder(
+                                valueListenable: controller.torchState,
+                                builder: (context, state, child) {
+                                  if (state == null) {
+                                    return const Icon(
+                                      Icons.flash_off,
+                                      color: Colors.grey,
+                                    );
+                                  }
+                                  switch (state as TorchState) {
+                                    case TorchState.off:
+                                      return const Icon(
+                                        Icons.flash_off,
+                                        color: Colors.grey,
+                                      );
+                                    case TorchState.on:
+                                      return const Icon(
+                                        Icons.flash_on,
+                                        color: Colors.yellow,
+                                      );
+                                  }
+                                },
+                              ),
+                              iconSize: 32.0,
+                              onPressed: () => controller.toggleTorch(),
+                            ),
+                            IconButton(
+                              color: Colors.white,
+                              icon: isStarted
+                                  ? const Icon(Icons.stop)
+                                  : const Icon(Icons.play_arrow),
+                              iconSize: 32.0,
+                              onPressed: _startOrStop,
+                            ),
+                            Center(
+                              child: SizedBox(
+                                width: MediaQuery.of(context).size.width - 200,
+                                height: 50,
+                                child: FittedBox(
+                                  child: Text(
+                                    barcode?.barcodes.first.rawValue ??
+                                        'Scan something!',
+                                    overflow: TextOverflow.fade,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headlineMedium!
+                                        .copyWith(color: Colors.white),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            IconButton(
+                              color: Colors.white,
+                              icon: ValueListenableBuilder(
+                                valueListenable: controller.cameraFacingState,
+                                builder: (context, state, child) {
+                                  if (state == null) {
+                                    return const Icon(Icons.camera_front);
+                                  }
+                                  switch (state as CameraFacing) {
+                                    case CameraFacing.front:
+                                      return const Icon(Icons.camera_front);
+                                    case CameraFacing.back:
+                                      return const Icon(Icons.camera_rear);
+                                  }
+                                },
+                              ),
+                              iconSize: 32.0,
+                              onPressed: () => controller.switchCamera(),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ),
-            iconSize: 32.0,
-            onPressed: () => cameraController.switchCamera(),
-          ),
-        ],
-      ),
-      body: MobileScanner(
-        fit: BoxFit.contain,
-        controller: cameraController,
-        onDetect: (capture) {
-          final List<Barcode> barcodes = capture.barcodes;
-          final Uint8List? image = capture.image;
-          for (final barcode in barcodes) {
-            debugPrint('Barcode found! ${barcode.rawValue}');
-          }
-          if (image != null) {
-            showDialog(
-              context: context,
-              builder: (context) =>
-                  Image(image: MemoryImage(image)),
-            );
-            Future.delayed(const Duration(seconds: 5), () {
-              Navigator.pop(context);
-            });
-          }
-        },
+          ],
+        ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
   }
 }
