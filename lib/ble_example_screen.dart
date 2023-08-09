@@ -38,6 +38,8 @@ class _BleExampleScreenState extends State<BleExampleScreen> {
   List<String> _receivedData = [];
   int _numberOfMessagesReceived = 0;
 
+  void logger() {}
+
   void initState() {
     super.initState();
     _dataToSendText = TextEditingController();
@@ -108,11 +110,14 @@ class _BleExampleScreenState extends State<BleExampleScreen> {
     if (Platform.isAndroid) {
       permissionStatus = await Permission.location.request();
       permissionStatusBlueToothScan = await Permission.bluetoothScan.request();
-      permissionStatusBlueToothConnect = await Permission.bluetoothConnect.request();
+      permissionStatusBlueToothConnect =
+          await Permission.bluetoothConnect.request();
       permissionStatusBlueTooth = await Permission.bluetoothAdvertise.request();
       print("android permission status location $permissionStatus");
-      print("android permission status bluetooth $permissionStatusBlueToothScan");
-      print("android permission status bluetooth $permissionStatusBlueToothConnect");
+      print(
+          "android permission status bluetooth $permissionStatusBlueToothScan");
+      print(
+          "android permission status bluetooth $permissionStatusBlueToothConnect");
       print("android permission status bluetooth $permissionStatusBlueTooth");
       if (permissionStatus == PermissionStatus.granted) {
         goForIt = true;
@@ -127,11 +132,24 @@ class _BleExampleScreenState extends State<BleExampleScreen> {
       _foundBleUARTDevices = [];
       _scanning = true;
       refreshScreen();
-      _scanStream = flutterReactiveBle.scanForDevices(withServices: [], requireLocationServicesEnabled: false).listen((device) {
+      _scanStream = flutterReactiveBle.scanForDevices(
+        withServices: [],
+        requireLocationServicesEnabled: false,
+      ).listen((device) {
         if (_foundBleUARTDevices.every((element) => element.id != device.id)) {
           _foundBleUARTDevices.add(device);
           refreshScreen();
         }
+        if (device.name == 'Radioland iBeacon') {
+          print(DateTime.now());
+          print(device.name);
+          print(device.rssi);
+        }
+
+        /*for (var device in _foundBleUARTDevices) {
+          print(device.name);
+          print(device.rssi);
+        }*/
       }, onError: (Object error) {
         _logTexts = "${_logTexts}ERROR while scanning:$error \n";
         refreshScreen();
@@ -211,7 +229,7 @@ class _BleExampleScreenState extends State<BleExampleScreen> {
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
                       border: Border.all(color: Colors.blue, width: 2)),
-                  height: 100,
+                  height: 350,
                   child: ListView.builder(
                       itemCount: _foundBleUARTDevices.length,
                       itemBuilder: (context, index) => Card(
@@ -236,9 +254,18 @@ class _BleExampleScreenState extends State<BleExampleScreen> {
                                 child: const Icon(Icons.add_link),
                               ),
                             ),
-                            subtitle: Text(_foundBleUARTDevices[index].id),
                             title: Text(
                                 "$index: ${_foundBleUARTDevices[index].name}"),
+                            subtitle: Column(
+                              children: [
+                                Text('id: ${_foundBleUARTDevices[index].id}\n'),
+                                Text('connectable: ${_foundBleUARTDevices[index].connectable.toString()}\n'),
+                                Text('manufacture data ${_foundBleUARTDevices[index].manufacturerData.toString()}\n'),
+                                Text('rssi ${_foundBleUARTDevices[index].rssi}\n'),
+                                Text('service uuids ${_foundBleUARTDevices[index].serviceUuids}\n'),
+                                Text('serviceData ${_foundBleUARTDevices[index].serviceData}\n'),
+                              ],
+                            ),
                           )))),
               const Text("Status messages:"),
               Container(
